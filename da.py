@@ -248,5 +248,5 @@ elif pagina_impostata == 'Tabella Esplorativa':
                     for percent_complete in simulated_process():
                         progress_bar.progress(percent_complete)
 
-                        tabella = guida(data)
-                        st.write(tabella)
+                    tabella = guida(data)
+                    st.write(tabella)

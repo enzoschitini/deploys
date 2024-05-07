@@ -29,7 +29,7 @@ st.title('Benvenuto a Streamlit!')
 
 st.sidebar.write('Bar')
 
-pagine = ["---", "Collegamento tra le variabili"]
+pagine = ["---", "Tabella Esplorativa", "Collegamento tra le variabili"]
 pagina_impostata = st.sidebar.selectbox("Scegli cosa vuoi fare:", pagine)
 
 
@@ -185,7 +185,5 @@ elif pagina_impostata == 'Collegamento tra le variabili':
                                 fontsize=12)
                 st.pyplot(fig)
 
-            #st.write(y)
-            
+elif pagina_impostata == 'Tabella Esplorativa':
             st.write('Va bene!!!')
-            st.write()

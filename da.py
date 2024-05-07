@@ -236,11 +236,6 @@ elif pagina_impostata == 'Tabella Esplorativa':
                     st.write(data)
                     righe, colonne = data.shape
                     st.write("Ci sono " + str(righe) + ' righe e ' + str(colonne) + ' colonne')
-            
-            #tipo_impostato = st.selectbox("  ", tipo_delle_colonne)
-
-            if uploaded_file:
-                start_loading = st.button("Avviare il processo")
 
                 tabella = guida(data)
                 st.write(tabella)

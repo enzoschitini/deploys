@@ -1,6 +1,7 @@
-pandas
+streamlit
 numpy
+pandas
 seaborn
 matplotlib
-streamlit
 scikit-learn
+imbalanced-learn

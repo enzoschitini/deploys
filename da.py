@@ -194,7 +194,6 @@ elif pagina_impostata == 'Collegamento tra le variabili':
                 st.pyplot(fig)
 
 elif pagina_impostata == 'Tabella Esplorativa':
-
             st.write('Va bene!!!')
         
             uploaded_file = st.file_uploader("Carica un set di dati da analizzare", type=["csv"])
@@ -207,5 +206,5 @@ elif pagina_impostata == 'Tabella Esplorativa':
                     righe, colonne = data.shape
                     st.write("Ci sono " + str(righe) + ' righe e ' + str(colonne) + ' colonne')
 
-                tabella = guida(data)
+                tabella = agt.guida(data)
                 st.write(tabella)

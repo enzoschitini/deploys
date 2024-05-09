@@ -8,7 +8,7 @@ class Avvio(object):
     def benvenuto(self):  # Add the 'self' parameter here
         st.write('Benvenuto')
     
-    def guida(data_frame): # 14/02/2024
+    def guida(self, data_frame): # 14/02/2024
         righe, qnt_colonne = data_frame.shape
         quantita_righe = format(righe, ",").replace(',', '.')
         sequenza = list(range(qnt_colonne + 1))

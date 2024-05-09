@@ -20,6 +20,10 @@ from sklearn.model_selection import cross_val_score
 from imblearn.under_sampling import RandomUnderSampler
 from sklearn.metrics import classification_report
 
+from algoritmo import Avvio
+
+agt = Avvio()
+
 
 st.set_page_config(layout='wide', page_title='Da Vinci',
                    page_icon="./Files/Vector.png")
@@ -30,7 +34,7 @@ st.write('---')
 
 st.sidebar.write('Bar')
 
-pagine = ["---", "Tabella Esplorativa", "Collegamento tra le variabili"]
+pagine = ["---", "Benvenuto", "Tabella Esplorativa", "Collegamento tra le variabili"]
 pagina_impostata = st.sidebar.selectbox("Scegli cosa vuoi fare:", pagine)
 
 
@@ -54,7 +58,10 @@ def prestazioni(albero, teste_x, teste_y):
 
 
 if pagina_impostata == '---':
-    st.write('---')
+    st.write('')
+
+elif pagina_impostata == 'Benvenuto':
+    agt.benvenuto()
 
 elif pagina_impostata == 'Collegamento tra le variabili':
     st.write('#### Collegamento tra le variabili')

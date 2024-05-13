@@ -199,6 +199,9 @@ elif pagina_impostata == 'Analisi':
     provenienza_impostata = st.selectbox("Da dove vengono i dati?", provenienza)
 
     def mostra_i_dati(data):
+        if 'Unnamed: 0' in data.columns:
+            data = data.drop(columns='Unnamed: 0')
+            
         with st.expander("Vedere i dati"):
             st.write(data)
             righe, colonne = data.shape
@@ -211,9 +214,15 @@ elif pagina_impostata == 'Analisi':
         uploaded_file = st.file_uploader("Carica un set di dati da analizzare", type=["csv"])
         if uploaded_file:
             data = pd.read_csv(uploaded_file)
+            data.columns.to_list()
             mostra_i_dati(data)
+
+            
             with st.expander("Variabili migliori"):
+                if 'Unnamed: 0' in data.columns:
+                    data = data.drop(columns='Unnamed: 0')
                 PCA.Variabile_Migliore(data, 'default')
+
             with st.expander("Comprimere gli archivi"):
                 PCA.comprimere()
     else:

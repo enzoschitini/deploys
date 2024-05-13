@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-from pandas_profiling import ProfileReport
 
 from sklearn import tree
 from sklearn.tree import plot_tree
@@ -93,16 +92,3 @@ class Avvio(object):
             data = pd.read_csv(uploaded_file)
             data.to_parquet(file_name)
             download_parquet(data, file_name)
-    
-    def pandas_profile(self, dataframe):
-        #prof = ProfileReport(dataframe, explorative=True, minimal=True)
-        #prof.to_file('./DataFrame Profile.html')
-
-        prof = ProfileReport(dataframe, explorative=True, minimal=True)
-
-        tmp_file = './DataFrame_Profile.html'
-        prof.to_file(tmp_file)
-
-        with open(tmp_file, 'rb') as f:
-            data = f.read()
-        st.markdown(f'<a href="data:file/html;base64,{data.decode("utf-8")}" download="DataFrame_Profile.html">Download Profile Report</a>', unsafe_allow_html=True)

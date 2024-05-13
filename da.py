@@ -20,9 +20,9 @@ from sklearn.model_selection import cross_val_score
 from imblearn.under_sampling import RandomUnderSampler
 from sklearn.metrics import classification_report
 
-from algoritmo import Avvio
+import analisi as pca
 
-agt = Avvio()
+PCA = pca.Avvio() # Pacchetto delle analisi
 
 
 st.set_page_config(layout='wide', page_title='Da Vinci',
@@ -34,7 +34,7 @@ st.write('---')
 
 st.sidebar.write('Bar')
 
-pagine = ["---", "Benvenuto", "Tabella Esplorativa", "Collegamento tra le variabili"]
+pagine = ["---", "Benvenuto", "Analisi", "Tabella Esplorativa", "Collegamento tra le variabili"]
 pagina_impostata = st.sidebar.selectbox("Scegli cosa vuoi fare:", pagine)
 
 
@@ -61,7 +61,7 @@ if pagina_impostata == '---':
     st.write('')
 
 elif pagina_impostata == 'Benvenuto':
-    agt.benvenuto()
+    PCA.benvenuto()
 
 elif pagina_impostata == 'Collegamento tra le variabili':
     st.write('#### Collegamento tra le variabili')
@@ -193,18 +193,31 @@ elif pagina_impostata == 'Collegamento tra le variabili':
                                 fontsize=12)
                 st.pyplot(fig)
 
-elif pagina_impostata == 'Tabella Esplorativa':
-            st.write('Va bene!!!')
-        
-            uploaded_file = st.file_uploader("Carica un set di dati da analizzare", type=["csv"])
+elif pagina_impostata == 'Analisi':
+    st.write('Analisi')
+    provenienza = ["---", "Link"]
+    provenienza_impostata = st.selectbox("Da dove vengono i dati?", provenienza)
 
-            if uploaded_file:
-                data = pd.read_csv(uploaded_file)
-                
-                with st.expander("Vedere i dati"):
-                    st.write(data)
-                    righe, colonne = data.shape
-                    st.write("Ci sono " + str(righe) + ' righe e ' + str(colonne) + ' colonne')
+    def mostra_i_dati(data):
+        with st.expander("Vedere i dati"):
+            st.write(data)
+            righe, colonne = data.shape
+            st.write("Ci sono " + str(righe) + ' righe e ' + str(colonne) + ' colonne')
 
-                tabella = agt.guida(data)
-                st.write(tabella)
+        tabella = PCA.guida(data)
+        st.write(tabella)
+
+    if provenienza_impostata == '---':
+        uploaded_file = st.file_uploader("Carica un set di dati da analizzare", type=["csv"])
+        if uploaded_file:
+            data = pd.read_csv(uploaded_file)
+            mostra_i_dati(data)
+            with st.expander("Variabili migliori"):
+                PCA.Variabile_Migliore(data, 'default')
+            with st.expander("Comprimere gli archivi"):
+                PCA.comprimere()
+    else:
+        link_del_dataset = st.text_input("Inserisci il link dei dati qui:")
+        if link_del_dataset:
+            data = pd.read_csv(link_del_dataset)
+            mostra_i_dati(data)

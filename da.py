@@ -34,7 +34,7 @@ st.write('---')
 
 st.sidebar.write('Bar')
 
-pagine = ["---", "Benvenuto", "Analisi", "Tabella Esplorativa", "Collegamento tra le variabili"]
+pagine = ["---", "Benvenuto", "Analisi"]
 pagina_impostata = st.sidebar.selectbox("Scegli cosa vuoi fare:", pagine)
 
 
@@ -198,35 +198,37 @@ elif pagina_impostata == 'Analisi':
     provenienza = ["---", "Link"]
     provenienza_impostata = st.selectbox("Da dove vengono i dati?", provenienza)
 
-    def mostra_i_dati(data):
+    def caricando_i_dati(provenienza_impostata):
+        if provenienza_impostata == '---':
+            uploaded_file = st.file_uploader("Carica un set di dati da analizzare", type=["csv"])
+            if uploaded_file:
+                data = pd.read_csv(uploaded_file)
+                data.columns.to_list()
+        else:
+            link_del_dataset = st.text_input("Inserisci il link dei dati qui:")
+            if link_del_dataset:
+                data = pd.read_csv(link_del_dataset)
+        
         if 'Unnamed: 0' in data.columns:
             data = data.drop(columns='Unnamed: 0')
-            
+        return data
+    
+    def viwer_data(data):
         with st.expander("Vedere i dati"):
             st.write(data)
             righe, colonne = data.shape
             st.write("Ci sono " + str(righe) + ' righe e ' + str(colonne) + ' colonne')
 
-        tabella = PCA.guida(data)
-        st.write(tabella)
-
-    if provenienza_impostata == '---':
-        uploaded_file = st.file_uploader("Carica un set di dati da analizzare", type=["csv"])
-        if uploaded_file:
-            data = pd.read_csv(uploaded_file)
-            data.columns.to_list()
-            mostra_i_dati(data)
-
-            
+        with st.expander("Tabella Esplorativa"):
+            tabella = PCA.guida(data)
+            st.write(tabella)
+        
+        if 'default' in data.columns:
             with st.expander("Variabili migliori"):
-                if 'Unnamed: 0' in data.columns:
-                    data = data.drop(columns='Unnamed: 0')
                 PCA.Variabile_Migliore(data, 'default')
 
-            with st.expander("Comprimere gli archivi"):
-                PCA.comprimere()
-    else:
-        link_del_dataset = st.text_input("Inserisci il link dei dati qui:")
-        if link_del_dataset:
-            data = pd.read_csv(link_del_dataset)
-            mostra_i_dati(data)
+    try:
+        data = caricando_i_dati(provenienza_impostata)
+        viwer_data(data)
+    except UnboundLocalError:
+        st.write('Non hai inserito nessun database al momento')

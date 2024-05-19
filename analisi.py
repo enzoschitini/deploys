@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import plotly.express as px
 
 from sklearn import tree
 from sklearn.tree import plot_tree
@@ -59,6 +60,17 @@ class Avvio(object):
         print(f'Consumassione di memoria: {memory_totale}Mb.')
         
         return data
+    
+    def grafico_categoria(self, coluna, dataframe):
+        import matplotlib.pyplot as plt
+        coluna_dic = (dataframe[coluna].value_counts(normalize=True) * 100).round().to_dict()
+
+        chiavi = list(coluna_dic.keys())
+        valori = list(coluna_dic.values())
+
+        plt.figure(figsize=(10, 5))
+        plt.bar(chiavi, valori, color='skyblue', edgecolor='black')
+        plt.show()
     
     def Variabile_Migliore(self, dataframe:pd.DataFrame, variabile_impostata):
         dataframe.dropna(inplace=True)

@@ -194,10 +194,11 @@ elif pagina_impostata == 'Collegamento tra le variabili':
                 st.pyplot(fig)
 
 elif pagina_impostata == 'Analisi':
-    st.write('Analisi')
+    st.write('### Analisi')
     provenienza = ["---", "Link"]
     provenienza_impostata = st.selectbox("Da dove vengono i dati?", provenienza)
 
+    @st.cach
     def caricando_i_dati(provenienza_impostata):
         if provenienza_impostata == '---':
             uploaded_file = st.file_uploader("Carica un set di dati da analizzare", type=["csv"])

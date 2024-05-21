@@ -198,7 +198,7 @@ elif pagina_impostata == 'Analisi':
     provenienza = ["---", "Link"]
     provenienza_impostata = st.selectbox("Da dove vengono i dati?", provenienza)
 
-    @st.cach
+    @st.cache_data
     def caricando_i_dati(provenienza_impostata):
         if provenienza_impostata == '---':
             uploaded_file = st.file_uploader("Carica un set di dati da analizzare", type=["csv"])

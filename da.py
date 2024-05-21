@@ -194,11 +194,10 @@ elif pagina_impostata == 'Collegamento tra le variabili':
                 st.pyplot(fig)
 
 elif pagina_impostata == 'Analisi':
-    st.write('### Analisi')
+    st.write('Analisi')
     provenienza = ["---", "Link"]
     provenienza_impostata = st.selectbox("Da dove vengono i dati?", provenienza)
 
-    #@st.cache_data
     def caricando_i_dati(provenienza_impostata):
         if provenienza_impostata == '---':
             uploaded_file = st.file_uploader("Carica un set di dati da analizzare", type=["csv"])
@@ -224,9 +223,19 @@ elif pagina_impostata == 'Analisi':
             tabella = PCA.guida(data)
             st.write(tabella)
         
-        if 'default' in data.columns:
-            with st.expander("Variabili migliori"):
-                PCA.Variabile_Migliore(data, 'default')
+        with st.expander("Distrubuzione tramite un grafico di barre"):
+            colonne_da_impostare = data.select_dtypes('object').columns.to_list()
+            col1, col2 = st.columns(2)
+            
+            with col1:
+                colonna_impostata_01 = st.selectbox("Scegli la prima colonna", colonne_da_impostare)
+            with col2:
+                colonna_impostata_02 = st.selectbox("Scegli la seconda colonna", colonne_da_impostare)
+
+            button_clicked = st.button('Clicca qui')
+
+            if button_clicked:
+                PCA.grafico_barre(colonna_impostata_01, colonna_impostata_02, data)
 
     try:
         data = caricando_i_dati(provenienza_impostata)

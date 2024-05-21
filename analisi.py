@@ -61,16 +61,22 @@ class Avvio(object):
         
         return data
     
-    def grafico_categoria(self, coluna, dataframe):
-        import matplotlib.pyplot as plt
-        coluna_dic = (dataframe[coluna].value_counts(normalize=True) * 100).round().to_dict()
+    def grafico_barre(self, colonna, categoria, dataframe):
+        contingency_table = pd.crosstab(dataframe[colonna], dataframe[categoria], normalize='index') * 100
+        contingency_table = contingency_table.reset_index().melt(id_vars=colonna, value_name='Percentuale')
 
-        chiavi = list(coluna_dic.keys())
-        valori = list(coluna_dic.values())
+        fig = px.bar(
+            contingency_table, 
+            x=colonna, 
+            y='Percentuale', 
+            color=categoria, 
+            barmode='group',
+            labels={'Percentuale': 'Percentuale (%)', 'ESCMAE': 'Cetegorie'},
+            title=f'Paragone tra {categoria} e {colonna}'
+        )
 
-        plt.figure(figsize=(10, 5))
-        plt.bar(chiavi, valori, color='skyblue', edgecolor='black')
-        plt.show()
+        fig.update_layout(plot_bgcolor="white")
+        st.plotly_chart(fig)
     
     def Variabile_Migliore(self, dataframe:pd.DataFrame, variabile_impostata):
         dataframe.dropna(inplace=True)
